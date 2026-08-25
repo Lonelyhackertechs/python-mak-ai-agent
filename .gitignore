@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.pyc
+venv/
+.env
+
+# Chroma DB - too big
+chroma_db/
+chroma.sqlite3
+./db/
+
+# React
+frontend/node_modules/
+frontend/dist/
+frontend/build/
+
+# Logs
+*.log
