@@ -70,23 +70,57 @@ export default function ChatWidget({ embedded = false, dark = false }) {
         ...messages,
         { from: 'bot', text: botResponse || 'I received an empty response.' }
       ]);
-    } catch (e) {
-      console.error('CHAT ERROR:', e.response?.data || e.message);
+    } } catch (e) {
+  console.error('CHAT ERROR:', e.response?.data || e.message);
 
-      // A 401 here means the token expired between page load and this
-      // request — send them back to login rather than showing a dead end.
-      if (e.response?.status === 401) {
-        localStorage.removeItem('token');
-        sessionStorage.setItem(PENDING_MESSAGE_KEY, userMessage);
-        navigate('/login', { state: { from: location.pathname } });
-        return;
+  // JWT expired/invalid
+  if (e.response?.status === 401) {
+    localStorage.removeItem('token');
+    sessionStorage.setItem(PENDING_MESSAGE_KEY, userMessage);
+
+    navigate('/login', {
+      state: { from: location.pathname }
+    });
+
+    return;
+  }
+
+  // Gemini/API rate limit
+  if (e.response?.status === 429) {
+    setMsgs((messages) => [
+      ...messages,
+      {
+        from: 'bot',
+        text: 'The AI service has temporarily reached its usage limit. Please try again later.'
       }
+    ]);
 
-      setMsgs((messages) => [
-        ...messages,
-        { from: 'bot', text: 'Agent offline or your session has expired.' }
-      ]);
-    } finally {
+    return;
+  }
+
+  // Backend returned an error
+  if (e.response) {
+    setMsgs((messages) => [
+      ...messages,
+      {
+        from: 'bot',
+        text: 'The agent encountered a server error. Please try again shortly.'
+      }
+    ]);
+
+    return;
+  }
+
+  // No response = actual network/connectivity problem
+  setMsgs((messages) => [
+    ...messages,
+    {
+      from: 'bot',
+      text: 'Unable to reach the AI service. Please check your connection and try again.'
+    }
+  ]);
+}
+    finally {
       setLoading(false);
     }
   };
