@@ -11,7 +11,7 @@ api.interceptors.request.use(config => {
 });
 
 export const pythonApi = axios.create({
-  baseURL: 'http://localhost:8000', // your Python agent.py
+  baseURL: 'https://python-mak-ai-agent.onrender.com', // My Python agent.py
 });
 
 pythonApi.interceptors.request.use(config => {
