@@ -341,7 +341,7 @@ def get_fees_breakdown(studentNumber: str) -> dict:
         headers={
                 "Authorization": f"Bearer {access_token}"
                         },
-        timeout=15
+        timeout=60
     )
 
 
