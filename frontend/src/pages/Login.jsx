@@ -14,7 +14,7 @@ export default function Login() {
   // Where to send the user back to after a successful login.
   // ChatWidget sets this when it redirects here (location.state.from);
   // otherwise fall back to the dashboard.
-  const redirectTo = location.state?.from || '/dashboard';
+  const redirectTo = location.state?.from || '/';
 
   const handleLogin = async (e) => {
     e.preventDefault();
