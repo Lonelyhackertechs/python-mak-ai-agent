@@ -33,9 +33,6 @@ export default function Home() {
         {/* LEFT — chat, the thing people actually came to use */}
         <div className="order-2 lg:order-1">
           <ChatWidget embedded dark />
-          <p className="text-sm text-[#9AA0AC] mt-4 font-[Manrope,sans-serif]">
-            Start typing anytime — you'll only be asked to log in when you send your first message.
-          </p>
         </div>
 
         {/* RIGHT — same footprint as the chat panel: h-[28rem] card, scrolls

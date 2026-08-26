@@ -70,7 +70,7 @@ export default function ChatWidget({ embedded = false, dark = false }) {
         ...messages,
         { from: 'bot', text: botResponse || 'I received an empty response.' }
       ]);
-    } } catch (e) {
+    }  catch (e) {
   console.error('CHAT ERROR:', e.response?.data || e.message);
 
   // JWT expired/invalid
