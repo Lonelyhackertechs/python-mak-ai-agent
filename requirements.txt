@@ -1,2 +1,12 @@
 requests
 python-dotenv
+fastapi
+uvicorn[standard]
+PyJWT
+langchain
+langchain-classic
+langchain-core
+langchain-google-genai
+langchain-chroma
+chromadb
+pydantic
