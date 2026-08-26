@@ -29,15 +29,15 @@ const STATS = [
 export default function Home() {
   return (
     <div className="min-h-screen bg-[#0B0C0F] text-[#F3F1EA] flex flex-col">
-      <div className="max-w-6xl mx-auto px-6 py-10 grid grid-cols-2 gap-10 items-start flex-1 w-full">
+      <div className="max-w-6xl mx-auto px-6 py-10 grid lg:grid-cols-[1fr_1fr] gap-10 items-start flex-1 w-full">
         {/* LEFT — chat, the thing people actually came to use */}
-        <div>
+        <div className="order-2 lg:order-1">
           <ChatWidget embedded dark />
-       </div>
+        </div>
 
         {/* RIGHT — same footprint as the chat panel: h-[28rem] card, scrolls
             internally instead of stretching the page when content runs long */}
-        <div className="relative">
+        <div className="order-1 lg:order-2 relative">
           <div className="h-[28rem] overflow-y-auto rounded-lg border border-white/10 bg-[#0F1013] pl-6 pr-4 py-6 relative">
             {/* Signature element: a beam of light down the left edge — echoes the
                 torch on Makerere's crest, standing in for "guidance" through the page */}
