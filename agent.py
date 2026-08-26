@@ -468,7 +468,7 @@ app = FastAPI(
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:5174"
-                    https://python-mak-ai-agent-1.onrender.com,
+                    https://python-mak-ai-agent-1.onrender.com
     ],
     allow_credentials=True,
     allow_methods=["*"],
