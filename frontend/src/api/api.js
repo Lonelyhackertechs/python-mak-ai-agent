@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://localhost:8080', // your Java backend
+  baseURL: 'https://mak-ai-agent.onrender.com', // My Java backend
 });
 
 api.interceptors.request.use(config => {
