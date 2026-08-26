@@ -61,6 +61,21 @@ current_student_number = ContextVar(
     default=None
 )
 
+current_access_token = ContextVar(
+    "current_access_token",
+    default=None
+)
+
+def get_authenticated_access_token() -> str:
+    token = current_access_token.get()
+
+    if not token:
+        raise RuntimeError(
+            "No authenticated token associated with this request."
+        )
+
+    return token
+
 
 def get_authenticated_student_number() -> str:
     """
@@ -216,12 +231,16 @@ def get_current_semester(studentNumber: str) -> dict:
     # Do NOT trust the value Gemini gives us.
 
     authenticated_student = get_authenticated_student_number()
+    access_token = get_authenticated_access_token()
 
 
     response = requests.get(
         f"{JAVA_BASE}/student/fees/period",
         params={
             "studentNumber": authenticated_student
+        },
+         headers={
+            "Authorization": f"Bearer {access_token}"
         },
         timeout=15
     )
@@ -259,6 +278,7 @@ def get_financial_summary(studentNumber: str) -> dict:
     """
 
     authenticated_student = get_authenticated_student_number()
+    access_token = get_authenticated_access_token()
 
 
     response = requests.get(
@@ -266,6 +286,9 @@ def get_financial_summary(studentNumber: str) -> dict:
         params={
             "studentNumber": authenticated_student
         },
+        headers={
+                    "Authorization": f"Bearer {access_token}"
+                },
         timeout=15
     )
 
@@ -307,6 +330,7 @@ def get_fees_breakdown(studentNumber: str) -> dict:
     """
 
     authenticated_student = get_authenticated_student_number()
+    access_token = get_authenticated_access_token()
 
 
     response = requests.get(
@@ -314,6 +338,9 @@ def get_fees_breakdown(studentNumber: str) -> dict:
         params={
             "studentNumber": authenticated_student
         },
+        headers={
+                "Authorization": f"Bearer {access_token}"
+                        },
         timeout=15
     )
 
@@ -501,8 +528,12 @@ def chat(
     # --------------------------------------------------------
 
     student_context = current_student_number.set(
-        student_number
-    )
+    student_number
+)
+
+    token_context = current_access_token.set(
+    token
+)
 
 
     # --------------------------------------------------------
@@ -542,14 +573,8 @@ def chat(
 
     finally:
 
-        # ----------------------------------------------------
-        # VERY IMPORTANT
-        #
-        # Do not leave the student's identity in the context
-        # after this request finishes.
-        # ----------------------------------------------------
-
         current_student_number.reset(student_context)
+        current_access_token.reset(token_context)
 
 
 # ============================================================
